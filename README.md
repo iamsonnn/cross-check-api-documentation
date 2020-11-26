@@ -20,7 +20,7 @@ Mỗi App sẽ được cấp một API Key để xác thực.
 Tất cả request từ App gửi lên CrossCheck sẽ phải chèn API key vào header Authorization với giá trị là "Bearer<dấu cách>API_KEY"
 Ví dụ:
 ``` sh
-curl —location —request GET 'localhost:8080/index/1234' \
+curl —location —request GET '{{host}}/index/1234' \
 —header 'Authorization: Bearer API_KEY' \
 ```
 
@@ -59,7 +59,7 @@ Nếu push document với cùng id thì CrossCheck sẽ thực hiện thao tác 
 
 ```bash
 curl --location --request POST '{{host}}/index' \
---header 'Authorization: Bearer api_key' \
+--header 'Authorization: Bearer API_KEY' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "id": "abcdddd",
@@ -100,8 +100,8 @@ Lấy thông tin 1 Document trong Storage
 Trong đó document_id là id của Document
 
 ```bash
-curl —location —request GET 'localhost:8080/index/1234' \
-—header 'Authorization: Bearer api_key'
+curl —location —request GET '{{host}}/index/1234' \
+—header 'Authorization: Bearer API_KEY'
 ```
 
 #### Response
@@ -134,8 +134,8 @@ Xóa một document trong storage
 Trong đó document_id là id của Document
 
 ``` sh
-curl —location —request DELETE 'localhost:8080/index/1234' \
-—header 'Authorization: Bearer api_key'
+curl —location —request DELETE '{{host}}/index/1234' \
+—header 'Authorization: Bearer API_KEY'
 ```
 
 #### Response
@@ -155,10 +155,10 @@ Kiểm tra trùng lặp của một Document với dữ liệu đã có trong st
 
 #### Request
 
-> POST: localhost:8080/search
+> POST: {{host}}/search
 
 ``` bash
-curl --location --request POST 'localhost:8080/search' \
+curl --location --request POST '{{host}}/search' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "content": "nội dung của tài liệu cần kiểm tra",
@@ -224,22 +224,37 @@ curl --location --request POST 'localhost:8080/search' \
 
 Mô tả:
 
-> **data**: Nội dung kết quả trùng lặp, trong đó:
+> **data**: Nội dung kết quả trùng lặp
+> 
+
 Trong **data**:
+
 > **score**:  Điểm trùng lặp của cả document
+> 
 > **sentences**: Các câu văn bị trùng lặp
+> 
 
 Mỗi phần từ trong **sentences** bao gồm:
+
 > **startChar**: Vị trí của ký tự đầu tiên của câu văn trong cả Document
+> 
 > **endChar**: Vị trí của ký tự đầu tiên của câu văn trong cả Document
+> 
 > **content**: Nội dung của câu văn
+> 
 > **score**: Điểm trùng lặp của câu văn
+> 
 > **similarities**: Danh sách các câu trong Storage trùng lặp với câu hiện tại
+> 
 
 Mỗi phần tử trong **similarities** bao gồm:
 > **score**:  Điểm trùng lặp của câu văn so với câu được đem đi kiểm tra
+> 
 > **content**: Nội dung của câu văn
+> 
 > **title**:  Tiêu đề của Document trong Storage
+> 
 >  **id**:  id của Document trong Storage
+> 
 >  **url**:  Đường dẫn của Document trong Storage
 
