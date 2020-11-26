@@ -234,7 +234,7 @@ Trong **data**:
 > **sentences**: Các câu văn bị trùng lặp
 > 
 
-Mỗi phần từ trong **sentences** bao gồm:
+Mỗi phần tử trong **sentences** bao gồm:
 
 > **startChar**: Vị trí của ký tự đầu tiên của câu văn trong cả Document
 > 
