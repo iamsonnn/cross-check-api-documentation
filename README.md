@@ -1,5 +1,5 @@
 # Cross check API documentation
-## Thuật ngữ chính:
+## 1. Thuật ngữ chính:
 CrossCheck: Hệ thống cung cấp API cho kiểm tra giữa các tài liệu với nhau
 
 App: Hệ thống sử dụng CrossCheck
@@ -13,14 +13,14 @@ Indexing: Quá trình đẩy dữ liệu vào storage
 Searching: Quá trình tìm kiếm trùng lặp nội dung của 1 tài liệu với dữ liệu trong storage
 
 
-## Mô tả flow:
+## 2. Mô tả flow:
 
 **Index**: Mỗi khi có một Document được tạo mới, hoặc cập nhật, App sẽ đẩy nội dung của Document đó lên CrossCheck để lưu trữ trong storage.
 
-**Search**: Khi App cần kiểm tra trùng lặp của 1 Document, App sẽ gửi yêu cầu kiểm tra lên (bao gồm nội dung của document) và CrossCheck sẽ trả về kết quả
+**Search**: Khi App cần kiểm tra trùng lặp của 1 Document, App sẽ gửi yêu cầu kiểm tra lên (bao gồm nội dung của document) và CrossCheck sẽ kiểm tra trùng lặp với các tài liệu trong Storage và  trả về kết quả
 
-## Mô tả các API
-### Base
+## 3. Mô tả các API
+### 3.1 Base
 #### Authorization
 
 Tất cả các API đều ở dạng REST API với format dữ liệu request/response là JSON
@@ -68,7 +68,7 @@ Trong đó:
 > 
 
 
-### Push Document
+### 3.2 Push Document
 
 API sẽ thêm hoặc cập nhật một Document vào Storage
 
@@ -121,7 +121,7 @@ Ví dụ response trả về:
 ```
 
 
-### Get Document
+### 3.3. Get Document
 
 Lấy thông tin 1 Document trong Storage
 
@@ -155,7 +155,7 @@ Ví dụ response trả về
 
 ```
 
-### DELETE Document
+### 3.4. DELETE Document
 
 Xóa một document trong storage
 
@@ -181,7 +181,7 @@ curl —location —request DELETE '{{host}}/index/1234' \
 ```
 
 
-### Search Document
+### 3.5. Search Document
 
 Kiểm tra trùng lặp của một Document với dữ liệu đã có trong storage
 
