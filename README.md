@@ -1,34 +1,51 @@
 # Cross check API documentation
 ## Thuật ngữ chính:
 CrossCheck: Hệ thống cung cấp API cho kiểm tra giữa các tài liệu với nhau
+
 App: Hệ thống sử dụng CrossCheck
+
 Storage: Nơi lưu trữ dữ liệu trong CrossCheck
+
 Document: Một tài liệu, ví dụ như 1 một bản ghi trong app
+
 Indexing: Quá trình đẩy dữ liệu vào storage 
+
 Searching: Quá trình tìm kiếm trùng lặp nội dung của 1 tài liệu với dữ liệu trong storage
 
 
 ## Mô tả flow:
+
 **Index**: Mỗi khi có một Document được tạo mới, hoặc cập nhật, App sẽ đẩy nội dung của Document đó lên CrossCheck để lưu trữ trong storage.
+
 **Search**: Khi App cần kiểm tra trùng lặp của 1 Document, App sẽ gửi yêu cầu kiểm tra lên (bao gồm nội dung của document) và CrossCheck sẽ trả về kết quả
 
 ## Mô tả các API
 ### Base
 #### Authorization
+
 Tất cả các API đều ở dạng REST API với format dữ liệu request/response là JSON
+
 Mỗi App sẽ được cấp một API Key để xác thực.
+
 Tất cả request từ App gửi lên CrossCheck sẽ phải chèn API key vào header Authorization với giá trị là "Bearer<dấu cách>API_KEY"
+
 Ví dụ:
+
 ``` sh
 curl —location —request GET '{{host}}/index/1234' \
 —header 'Authorization: Bearer API_KEY' \
 ```
 
 #### Response và mã lỗi
+
 CrossCheck sẽ trả về HTTP status code cơ bản như sau
+
 **200**: CrossCheck thực hiện hành động thành công
+
 **400**: Có lỗi trong dữ liệu đẩy lên
+
 **401**: Chưa xác thực, kiểm tra lại API gửi lên
+
 **404**: Sai đường dẫn hoặc không tìm thấy bản ghi
 
 Với code = **200** và **400**: response sẽ có cấu trúc như sau:
@@ -42,15 +59,23 @@ Với code = **200** và **400**: response sẽ có cấu trúc như sau:
 ```
 
 Trong đó:
-**code**: Mã lỗi, có 2 mã lỗi cơ bản là **SUCCESS** (thành công) và **ERROR** (lỗi không xác định). Các mã lỗi khác sẽ được mô tả riêng trong từng API
-**description**: Mô tả của mã lỗi
-**data**: data trả về (nếu có), trường này có thể null
+
+> **code**: Mã lỗi, có 2 mã lỗi cơ bản là **SUCCESS** (thành công) và **ERROR** (lỗi không xác định). Các mã lỗi khác sẽ được mô tả riêng trong từng API
+> 
+> **description**: Mô tả của mã lỗi
+> 
+> **data**: data trả về (nếu có), trường này có thể null
+> 
 
 
 ### Push Document
+
 API sẽ thêm hoặc cập nhật một Document vào Storage
+
 Mỗi Document yêu cầu một khóa chính là **id**, App phải đảm bảo id của các Document không được trùng
+
 **Lưu ý**: Id chỉ có ký tự chữ (a-zA-Z), số (0-9) và dấu gạch dưới (_)
+
 Nếu push document với cùng id thì CrossCheck sẽ thực hiện thao tác cập nhật chứ không tạo mới bản ghi
 
 #### Request gửi lên
@@ -71,11 +96,17 @@ curl --location --request POST '{{host}}/index' \
 
 ```
 
-**id (required)**: id của Document. Chỉ có ký tự chữ (a-zA-Z), số (0-9) và dấu gạch dưới (_)
-**title (optional)**: Tiêu đề của Document. Nên có để hiển thị trong kết quả khi kiểm tra
-**url (optional)**: Đường dẫn của Document. Nên có để hiển thị trong kết quả khi kiểm tra
-**content (required)**: Nội dung của tài liệu
-**meta (optional)**: thông tin bổ sung của tài liệu 
+> **id (required)**: id của Document. Chỉ có ký tự chữ (a-zA-Z), số (0-9) và dấu gạch dưới (_)
+> 
+> **title (optional)**: Tiêu đề của Document. Nên có để hiển thị trong kết quả khi kiểm tra
+> 
+> **url (optional)**: Đường dẫn của Document. Nên có để hiển thị trong kết quả khi kiểm tra
+> 
+> **content (required)**: Nội dung của tài liệu
+> 
+> **meta (optional)**: thông tin bổ sung của tài liệu 
+
+
 
 #### Response trả về
 
@@ -91,6 +122,7 @@ Ví dụ response trả về:
 
 
 ### Get Document
+
 Lấy thông tin 1 Document trong Storage
 
 #### Request
@@ -167,8 +199,10 @@ curl --location --request POST '{{host}}/search' \
 
 ```
 
-**content (required)**: Nội dung của tài liệu. Yêu cầu tối thiểu 100 ký tự.
-**documentId (optional)**: Id của tài liệu. Nếu tài liệu đã từng được index vào Storage, thì cần đẩy trường này lên để đảm bảo kết quả không chứa chính tài liệu đó.
+> **content (required)**: Nội dung của tài liệu. Yêu cầu tối thiểu 100 ký tự.
+> 
+> **documentId (optional)**: Id của tài liệu. Nếu tài liệu đã từng được index vào Storage, thì cần đẩy trường này lên để đảm bảo kết quả không chứa chính tài liệu đó.
+
 
 #### Response
 
@@ -234,7 +268,7 @@ Trong **data**:
 > **sentences**: Các câu văn bị trùng lặp
 > 
 
-Mỗi phần tử trong **sentences** bao gồm:
+Mỗi phần từ trong **sentences** bao gồm:
 
 > **startChar**: Vị trí của ký tự đầu tiên của câu văn trong cả Document
 > 
